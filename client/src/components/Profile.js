@@ -17,6 +17,10 @@ const Profile = () => {
     setter(!state);
   };
 
+  const valueListener = (value, setter) => {
+    setter(value);
+  };
+
   // Also need to ad a tag where if there are no history chat, don't show the button else show
   return (
     <>
@@ -46,7 +50,7 @@ const Profile = () => {
           items={positionList}
           valueListener={setPosition}
           state={positionIsShowing}
-          setter={setPositionIsShowing}
+          modalSetter={setPositionIsShowing}
           modalListener={modalListener}
         />
       )}
@@ -55,8 +59,9 @@ const Profile = () => {
           title={"Ambiance"}
           items={ambianceList}
           valueListener={setAmbiance}
+          valueSetter={valueListener}
           state={ambianceIsShowing}
-          setter={setAmbianceIsShowing}
+          modalSetter={setAmbianceIsShowing}
           modalListener={modalListener}
         />
       )}

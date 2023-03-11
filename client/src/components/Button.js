@@ -1,8 +1,13 @@
 import React from "react";
 
-const Button = ({ valueListener, value }) => {
+const Button = ({ changeValueHandler, value, valueSetter }) => {
   return (
-    <button onClick={valueListener} id={value}>
+    <button
+      onClick={() => {
+        changeValueHandler(value, valueSetter);
+      }}
+      id={value}
+    >
       {" "}
       {value}{" "}
     </button>
