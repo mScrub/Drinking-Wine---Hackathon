@@ -1,17 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import {useState} from "react"; 
 
 function App() {
+  const [email, setEmail] = useState("");
+  
+  const [password, setPassword] = useState("");
+
+  
 
   function search() {
-    axios.get("core/users/", {"data": "test"})
-      .then(response  => {
-        console.log(response)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    console.log(email)
+    console.log(password)
+    axios.post('core/create_user/', {"email": email, "password":password})
+    .then(response => {
+      console.log(response)
+    }).catch(error=> {
+      console.log(error)
+    })
+
+    // axios.get("core/users/", {"data": "test"})
+    //   .then(response  => {
+    //     console.log(response)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
   }
 
   return (
@@ -29,6 +44,11 @@ function App() {
         >
           Learn React
         </a>
+        
+        <input type="text" onChange={(e) => { setEmail(e.target.value) }}/>
+        <input type="text" onChange={(e) => { setPassword(e.target.value)}} />
+        
+
         <button onClick={search}>Click</button>
       </header>
     </div>
