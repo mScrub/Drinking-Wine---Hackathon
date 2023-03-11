@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div className="App">
-      <form onSubmit={search} method="POST">
+      <form onSubmit={search} method="POST" className="">
         <input
           type="text"
           onChange={(e) => {
