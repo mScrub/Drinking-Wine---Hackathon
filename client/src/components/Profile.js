@@ -1,7 +1,21 @@
 import React from "react";
 
 const Profile = () => {
-  return <div>Profile</div>;
+  const [position, setPosition] = React.useState("Position");
+  const [difficulty, setDifficulty] = React.useState("Difficulty");
+  // Also need to ad a tag where if there are no history chat, don't show the button else show
+  return (
+    <main className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5/6 h-1/2 shadow-lg border-1 bg-green-50 border-gray-300 rounded-md">
+      <div className="flex flex-col w-full h-full justify-center items-center gap-3">
+        <button className="w-3/4 bg-blue-900 h-8 subpixel-antialiased font-semibold text-white rounded-sm">
+          {position}
+        </button>
+        <button className="w-3/4 bg-blue-900 h-8 subpixel-antialiased font-semibold text-white rounded-sm">
+          {difficulty}
+        </button>
+      </div>
+    </main>
+  );
 };
 
 export default Profile;
