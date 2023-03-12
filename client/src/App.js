@@ -14,7 +14,9 @@ function App() {
     axios
       .get("core/is_logged_in/")
       .then((response) => {
-        setIsLoggedIn(response.success);
+        if (response.data.success) {
+          setIsLoggedIn(response.data.success);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -25,8 +27,10 @@ function App() {
     axios
       .post("core/login/", { email: email, password: password })
       .then((response) => {
-        console.log(response);
-        setIsLoggedIn(response.success);
+        if (response.data.success) {
+          console.log(response);
+          setIsLoggedIn(response.data.success);
+        }
       })
       .catch((error) => {
         console.log(error);
