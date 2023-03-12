@@ -17,9 +17,12 @@ const Chat = () => {
           console.log(response)
           setMessages([...messages, response.data.response.choices[0].message])
         })
-    }
-      sendInformation();
-    }, [])
+        .then((response) => {
+          console.log(response.data);
+        });
+    };
+    sendInformation();
+  }, []);
 
   // Get data...
   // console.log(state.position, state.ambiance);
@@ -30,8 +33,6 @@ const Chat = () => {
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable,
   } = useSpeechRecognition();
-  const startListening = () =>
-    SpeechRecognition.startListening({ continuous: true });
 
   if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) {
     return <h1> Browser does not support Speech to Text d </h1>;
@@ -45,8 +46,6 @@ const Chat = () => {
       SpeechRecognition.startListening({ continuous: true });
     }
   };
-
-  
 
   const storeTranscript = () => {
     if (transcript === "") return;
