@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import Response from "./Responses";
 import { FaMicrophone } from "react-icons/fa";
+import axios from "axios";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const { state } = useLocation();
+  useEffect(() => { 
+      const sendInformation = async () => { 
+      axios.post("core/get_chatgpt_response/", {"ambiance": state.ambiance, "position": state.position, "messages": messages})
+        .then(response => {
+          console.log(response.data)
+        })
+    }
+      sendInformation();
+    }, [])
 
   // Get data...
   // console.log(state.position, state.ambiance);
@@ -35,10 +45,14 @@ const Chat = () => {
     }
   };
 
+  
+
   const storeTranscript = () => {
     if (transcript === "") return;
-    setTimeout(() => {
-      setMessages((messages) => [...messages, transcript]);
+    setTimeout(async () => {
+      const response = await axios.post("core/get_chatgpt_response/", {"messages": messages, "text": transcript})
+      setMessages((messages) => [...messages, response.data.response]);
+      console.log(response)
     }, 1000);
     resetTranscript();
   };
