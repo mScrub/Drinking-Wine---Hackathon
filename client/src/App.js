@@ -56,7 +56,7 @@ function App() {
 
   return (
     <>
-      <div className="App">
+      {/* <div className="App">
         <form onSubmit={search} method="POST" className="">
           <input
             type="text"
@@ -75,7 +75,7 @@ function App() {
           <button onClick={login}>Login</button>
           <button onClick={write}>Write</button>
         </form>
-      </div>
+      </div> */}
       <Router>
         <Routes>
           <Route
