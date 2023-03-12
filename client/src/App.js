@@ -2,6 +2,10 @@ import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
 import { useState } from "react";
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Profile from "./components/Profile";
+import Chat from "./components/Chat";
 
 function App() {
   const [email, setEmail] = useState("");
@@ -21,45 +25,53 @@ function App() {
   };
 
   const login = async (event) => {
-    event.preventDefault()
-    axios.post("core/login/", {email: email, password: password})
-      .then(response => {
-        console.log(response)
+    event.preventDefault();
+    axios
+      .post("core/login/", { email: email, password: password })
+      .then((response) => {
+        console.log(response);
       })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const write = async (event) => {
-    event.preventDefault()
-    axios.post("core/writing/", {"name": "some name"})
-      .then(response => {
-        console.log(response)
-      })
-  }
+    event.preventDefault();
+    axios.post("core/writing/", { name: "some name" }).then((response) => {
+      console.log(response);
+    });
+  };
 
   return (
-    <div className="App">
-      <form onSubmit={search} method="POST" className="">
-        <input
-          type="text"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
+    <>
+      <div className="App">
+        <form onSubmit={search} method="POST" className="">
+          <input
+            type="text"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <input
+            type="text"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
 
-        <button onClick={search}>Click</button>
-        <button onClick={login}>Login</button>
-        <button onClick={write}>Write</button>
-      </form>
-    </div>
+          <button onClick={search}>Click</button>
+          <button onClick={login}>Login</button>
+          <button onClick={write}>Write</button>
+        </form>
+      </div>
+      <Router>
+        <Routes>
+          <Route path="/" exact element={<Profile />} />
+          <Route path="/chat" exact element={<Chat />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
