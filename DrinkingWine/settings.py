@@ -21,7 +21,7 @@ from firebase_admin import credentials
 
 
 CONFIG = {
-    'type': os.getenv('TYPE'),
+    "type": os.getenv("type"),
     "project_id": os.getenv("PROJECT_ID"),
     "private_key_id": os.getenv("PRIVATE_KEY_ID"),
     "private_key": os.getenv("PRIVATE_KEY"), 
