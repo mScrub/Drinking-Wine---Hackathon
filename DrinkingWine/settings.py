@@ -15,8 +15,8 @@ import os
 import firebase_admin
 from firebase_admin import credentials
 
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 port = int(os.environ.get("PORT", 8000))
 
 CONFIG = {
