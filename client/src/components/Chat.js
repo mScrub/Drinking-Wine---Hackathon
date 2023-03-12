@@ -50,9 +50,11 @@ const Chat = () => {
   const storeTranscript = () => {
     if (transcript === "") return;
     setTimeout(async () => {
-      const response = await axios.post("core/get_chatgpt_response/", {"messages": messages, "text": transcript})
-      setMessages((messages) => [...messages, response.data.response]);
-      console.log(response)
+      axios.post("core/get_chatgpt_response/", {"messages": messages, "text": transcript})
+        .then(response => {
+          console.log(response)
+          setMessages((messages) => [...messages, response.data.response.choices[0].message]);
+        })
     }, 1000);
     resetTranscript();
   };
@@ -73,7 +75,7 @@ const Chat = () => {
             user={true}
           />
           {messages.map((message) => (
-            <Response key={message} content={message} />
+            <Response key={message.content} content={message.content} />
           ))}
         </div>
       </div>
