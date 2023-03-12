@@ -21,7 +21,7 @@ load_dotenv()
 
 
 CONFIG = {
-    "TYPE": os.getenv("TYPE"),
+    'TYPE': os.getenv('TYPE'),
     "project_id": os.getenv("PROJECT_ID"),
     "private_key_id": os.getenv("PRIVATE_KEY_ID"),
     "private_key": os.getenv("PRIVATE_KEY"), 
