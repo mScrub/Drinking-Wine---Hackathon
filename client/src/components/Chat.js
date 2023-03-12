@@ -7,53 +7,16 @@ import Response from "./Responses";
 import { FaMicrophone } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import axios from "axios";
+import { useSpeechSynthesis } from "react-speech-kit";
 
 const Chat = () => {
   const navigate = useNavigate();
-  const testing = [
-    {
-      role: "assistant",
-      content:
-        "Hi there! Thanks for coming in today. Can you tell me a little about your software engineering background and experience?",
-    },
-    {
-      role: "user",
-      content:
-        "Hey, good morning as well. Thanks. Thank you for inviting me. I am currently at BCIT student and I do have. I unfortunately don't have any experience at work, but I do have experience with personal projects.",
-    },
-    {
-      role: "assistant",
-      content:
-        "That's great to hear! can you tell me a bit more about the personal projects that you have worked on? What programming languages and tools did you use? What were the challenges you faced and how did you overcome them?",
-    },
-    {
-      role: "user",
-      content: "Actually, that's more like it, yeah.",
-    },
-    {
-      role: "assistant",
-      content:
-        "Hi there! Thanks for coming in today. Can you tell me a little about your software engineering background and experience?",
-    },
-    {
-      role: "user",
-      content:
-        "Hey, good morning as well. Thanks. Thank you for inviting me. I am currently at BCIT student and I do have. I unfortunately don't have any experience at work, but I do have experience with personal projects.",
-    },
-    {
-      role: "assistant",
-      content:
-        "That's great to hear! can you tell me a bit more about the personal projects that you have worked on? What programming languages and tools did you use? What were the challenges you faced and how did you overcome them?",
-    },
-    {
-      role: "user",
-      content: "Actually, that's more like it, yeah.",
-    },
-  ];
+  const [openAiResponse, setOpenAiResponse] = useState("");
   const [messages, setMessages] = useState([]);
   const [waiting, setWaiting] = useState(true);
   const { state } = useLocation();
   const messageEndRef = useRef(null);
+  const { speak } = useSpeechSynthesis();
 
   const scrollToBottom = () => {
     messageEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -77,11 +40,11 @@ const Chat = () => {
             ...messages,
             response.data.response.choices[0].message,
           ]);
+          setOpenAiResponse(response.data.response.choices[0].message.content);
         });
     };
     setWaiting(false);
     sendInformation();
-    console.log(messages);
   }, []);
 
   // Get data...
@@ -93,6 +56,13 @@ const Chat = () => {
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable,
   } = useSpeechRecognition();
+
+  useEffect(() => {
+    if (openAiResponse) {
+      speak({ text: openAiResponse });
+      setOpenAiResponse("");
+    }
+  }, [messages]);
 
   if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) {
     return <h1> Browser does not support Speech to Text d </h1>;
@@ -124,10 +94,10 @@ const Chat = () => {
             { role: "user", content: newMessage },
             response.data.response.choices[0].message,
           ]);
+          setOpenAiResponse(response.data.response.choices[0].message.content);
         });
     }, 1000);
     setWaiting(false);
-    console.log(messages);
   };
 
   return (
@@ -160,6 +130,12 @@ const Chat = () => {
         <>
           <div className="w-full h-full inset-0 fixed bg-gray-700 opacity-60"></div>
         </>
+      )}
+
+      {listening && transcript && (
+        <div className="h-min-3/4 w-3/4 subpixel-antialiased font-medium p-4 flex flex-col bg-white opacity-80 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 fixed ring-2 ring-gray-50 rounded-md">
+          {transcript}
+        </div>
       )}
 
       {waiting && (

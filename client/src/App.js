@@ -8,7 +8,7 @@ import Chat from "./components/Chat";
 import Login from "./components/Login";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
     axios
