@@ -19,6 +19,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+port = int(os.environ.get("PORT", 8000))
 
 CONFIG = {
     "type": os.getenv("TYPE"),
