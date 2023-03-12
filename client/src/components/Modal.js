@@ -18,7 +18,7 @@ const Modal = ({
   return (
     <section className="w-full inset-0 fixed">
       <div
-        className="w-full h-full inset-0 fixed bg-gray-700 opacity-60"
+        className="w-full h-full inset-0 fixed bg-gray-500 opacity-60"
         onClick={closerModal}
       ></div>
       <div className=" h-min-3/4 w-3/4 p-4 flex flex-col bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 fixed ring-2 ring-gray-50 rounded-md">
