@@ -71,12 +71,21 @@ def login(request):
 @csrf_exempt
 def writing(request):
     data = json.loads(request.body)
-    name = data.get("name")
-    database = firestore.client()
-    user_collection = database.collection("users")
-    user_collection.document(name).set({
-        "name": name
-    })
+    temp_list = []
+    print("inside_writing")
+    for x in range(len(data["messages"])):
+        text = data["messages"][x]["content"]
+        temp_list.append(text)
+    count=0
+    for y in temp_list:
+        print(f"{count} - {y} \n")
+        count += 1
+    # name = data.get("name")
+    # database = firestore.client()
+    # user_collection = database.collection("users")
+    # user_collection.document(name).set({
+    #     "name": name
+    # })
     return JsonResponse({"stuff": request.session.get("uid")})
 
 
@@ -119,3 +128,12 @@ def get_chatgpt_response(request):
         return JsonResponse({"response": chatgpt_response})
     else:
         return JsonResponse({"error": "Invalid request method"})
+
+@csrf_exempt
+def update_dialogue(request):
+    data = json.loads(request.body)
+    messages = data.get('messages')
+    print(messages)
+    print("update_dialogue")
+    print(request)
+    return("update_dialogue_ return")

@@ -15,12 +15,15 @@ const Chat = () => {
       axios.post("core/get_chatgpt_response/", {"ambiance": state.ambiance, "position": state.position, "messages": messages})
         .then(response => {
           console.log(response)
+          console.log("here?")
           setMessages([...messages, response.data.response.choices[0].message])
         })
     };
     sendInformation();
   }, []);
 
+
+  
   // Get data...
   // console.log(state.position, state.ambiance);
   const {
@@ -35,10 +38,28 @@ const Chat = () => {
     return <h1> Browser does not support Speech to Text d </h1>;
   }
 
+  // const updateDialogue = () => {
+  //   axios.post("core/update_dialogue/", {"messages": messages})
+  //   .then(response => {
+  //     console.log(response)
+  //   })
+  // }
+
+    const updateDialogue = () => {
+    
+    // console.log("hm..")
+    // console.log(messages)
+    axios.post("core/writing/", { "messages" : messages}).then((response) => {
+      console.log(response);
+    });
+  };
+
+
   const recording = () => {
     if (listening) {
       SpeechRecognition.stopListening();
       storeTranscript();
+      updateDialogue();
     } else {
       SpeechRecognition.startListening({ continuous: true });
     }
@@ -50,7 +71,9 @@ const Chat = () => {
       axios.post("core/get_chatgpt_response/", {"messages": messages, "text": transcript})
         .then(response => {
           console.log(response)
-          setMessages((messages) => [...messages, response.data.response.choices[0].message]);
+          setMessages([...messages, {"role":"user", "content": transcript}])
+          setMessages([...messages, response.data.response.choices[0].message])
+          // setMessages((messages) => [...messages, response.data.response.choices[0].message]);
         })
     }, 1000);
     resetTranscript();
