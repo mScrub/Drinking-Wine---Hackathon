@@ -15,9 +15,9 @@ import os
 import firebase_admin
 from firebase_admin import credentials
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 
 CONFIG = {
@@ -32,8 +32,8 @@ CONFIG = {
     "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
     "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL")
 }
-
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/alexa/credentials.json"
+print(CONFIG)
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:./"pc37.txt" 
 cred = credentials.Certificate(CONFIG)
 firebase_admin.initialize_app(cred)
 
