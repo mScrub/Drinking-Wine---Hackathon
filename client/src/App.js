@@ -16,6 +16,8 @@ function App() {
       .then((response) => {
         if (response.data.success) {
           setIsLoggedIn(response.data.success);
+        } else {
+          setIsLoggedIn(false)
         }
       })
       .catch((error) => {
