@@ -39,7 +39,6 @@ const Chat = () => {
     if (transcript === "") return;
     setTimeout(() => {
       setMessages((messages) => [...messages, transcript]);
-      SpeechRecognition.stopListening();
     }, 1000);
     resetTranscript();
   };
