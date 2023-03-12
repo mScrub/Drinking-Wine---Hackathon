@@ -33,7 +33,9 @@ def create_user(request):
         password = data.get('password')
         try:
             user = auth.create_user(email=email, password=password)
-            print(user.uid)
+            request.session["uid"] = user.uid
+            request.session.save()
+            print(request.session["uid"])
             return JsonResponse({'success': True, 'user': user})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
