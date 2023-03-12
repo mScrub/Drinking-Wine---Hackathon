@@ -70,3 +70,7 @@ def writing(request):
         "name": name
     })
     return JsonResponse({"stuff": request.session.get("uid")})
+
+@csrf_exempt
+def is_logged_in(request):
+    return request.session["uid"] is not None
