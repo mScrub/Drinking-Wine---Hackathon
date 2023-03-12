@@ -50,7 +50,8 @@ SECRET_KEY = 'django-insecure-7zz_$3q(0lqb*(3^+*8u+5fxz$oel5z37--n1t%^u4riyo0$45
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-react-hackathon.herokuapp.com']
+ALLOWED_HOSTS = ['django-react-hackathon.herokuapp.com',
+                 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -76,6 +77,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -88,7 +90,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'client', 'build')
+            os.path.join(BASE_DIR, 'build')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -101,6 +103,8 @@ TEMPLATES = [
         },
     },
 ]
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 WSGI_APPLICATION = 'DrinkingWine.wsgi.application'
 
@@ -151,12 +155,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'client', 'build', 'static')]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static'),
+]
