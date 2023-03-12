@@ -7,8 +7,6 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 import requests
 
-USER_UID = None
-
 def front(request):
     context = {}
     return render(request, "index.html", context)
@@ -43,7 +41,6 @@ def login(request):
     data = json.loads(request.body)
     email = data.get("email")
     password = data.get("password")
-
     response = requests.post(
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBWSuiVJJm7Y8hgAwQUljezZLhvfoWrVLw',
         data=json.dumps({
@@ -53,10 +50,12 @@ def login(request):
         }),
         headers={'Content-Type': 'application/json'}, timeout=20
     )
+
     if response.status_code == 200:
         response_data = response.json()
         USER_UID = response_data["localId"]
-
+        request.session["uid"] = USER_UID
+        request.session.save()
         return JsonResponse({"success": True, "id": USER_UID})
     else:
         return JsonResponse({"error": "there was an error"})
@@ -65,12 +64,9 @@ def login(request):
 def writing(request):
     data = json.loads(request.body)
     name = data.get("name")
-
-    print(f"uid: {USER_UID}")
-
     database = firestore.client()
     user_collection = database.collection("users")
     user_collection.document(name).set({
         "name": name
     })
-    return JsonResponse({"stuff": "stuff"})
+    return JsonResponse({"stuff": request.session.get("uid")})
