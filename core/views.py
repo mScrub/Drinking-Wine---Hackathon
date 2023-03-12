@@ -7,8 +7,12 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 import openai
 from DrinkingWine import config
-openai.api_key = config.OPENAI_API_KEY
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def front(request):
     context = {}
@@ -42,7 +46,7 @@ def login(request):
     try:
         user = auth.get_user_by_email(email)
         response = requests.post(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBWSuiVJJm7Y8hgAwQUljezZLhvfoWrVLw',
+            os.getenv("FIREBASE_APT_IN_VIEW"),
             data=json.dumps({
                 'email': email,
                 'password': password,

@@ -15,17 +15,22 @@ import os
 import firebase_admin
 from firebase_admin import credentials
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
+
 CONFIG = {
-    "type": "service_account",
-    "project_id": "reactdjango-17278",
-    "private_key_id": "19b79e9f6ad4b4e5eef0652ddc28c8ae1d6e9727",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDI4OrIbUDd31cw\n7NjVIZ6JpyL3jkCZACWPmLhqDA3Lif5alJF2pbz3zFb//aH88Hrx38T0kfMosTHY\nWbmHqnAla7aeDHFC/Nf+Kr0WrMWGwPx5J/dxVQvpBaumSYDdDELge+ziXviDrs/f\nFE64HNxsTK7iZQzztoskjhybRF4TZjA8HSRsNX9DlToWiE5ED+rJdkjhYhuIXP7c\ns94oLXl0DfSynyP2aejq+zzvbpaZbArMYSmRFOWLjVG1JhdFjoZe63omcEAsn+lO\n07fFVji8IupfwY+77ekmznau/x0LF+cbMI+soSv8Q0VJ1HqeJWQ4r0wUB+b5wotS\nL/OpmIhVAgMBAAECggEACNkUqQIG8BQ8/EQHw6YuHCoRzuL5KBlq43RP9dEqGmOt\nocJsKym0X8XPCd+GGboN8EbG9MQo+GCLAtiQ5M+LuQTm5PdEqzVaiNt2ZgqeI11a\nFuFnyMTSOCVZINiZUHiQdDWBLZy5SDOUUbh3RIIg7gmX+mjbtTBpLecEjjeTXTn4\nYFj2Kq//ykf91xHPBXFjgPiPkbuOcSquWbj7oTEd7SPxfSI8N+sCdE5LFdWF+Irw\nCJhAoJUVHOOHxSUmxPJkxtjFW+6b5+IpP+Ic3EIBGy40BvkiYtUflO9FaxDWpFEd\nRR2hjztiBJbbWH0Qxktyx65wbG1bgkEN6inWO/udgQKBgQDwcL14fuctylYnKVo7\n7Utkv1t0d3BmYtrtNGBGUaeUbRuVd3eks5cow7d86Qz2VO6zlaQCsbqjx9E8c+4u\n+FYI7bAxxXijMT5OOeMPxXSb00ZK1DaAJU9GlPVWa30VdvLlIpytZ/7peTceobO/\nCBP706X5o+7intTQYs/glrhj3QKBgQDV4MaO3rAfm8sQpRTvwnPL8wqVEVaOD8UJ\n0Uxg5dQh9aKtpm1Ch1r+pbhkuohPNHIsr+oYQRuOGBq9Gjvvcl1ZB/mFNmblXPyG\nNSjBr1bKcnEXOQYIfyHovixl8GsOkifw+4NULfcqv0ZVTaJV1YuyI2uxQKRQqFQ7\nxeS1vEZK2QKBgBOs9iRNJjfeDezIeoTa50eITUCboYwPXOD6X0KB3hfMUeyKSTUm\nKSGB2psTKydhTeNORIyf5KkQafPrfLtFQS0b3kZEZZndJr8aB5W7z84MnPz0nr0f\n0HvzJpx60VKXWEsd6Ppbv0V10OflzaK9U31RFYz3OE49NycSXvZ+/vnVAoGACG0g\npYRUgApNR8yZNJD+quxaYGEcfeBVLPvX/IFRiDz7Ocgyyco3ZYz15NIMiMJSNTyB\nBo+aHFEKzKR59AcXcmiEBiGMkEDHmioB/w9/Zd54YifW+wK3PUowyZtdPGe5tx7R\nn8Fn2YFLrhSu7p7JMC2BEqyvTJY1K12ykw5l3pECgYEA3XI+caCg2b7ConAOGqxU\nABnnsyYt2CzIAhdZzRhv8t4RdbpwNPynG9Xk8vvdMFy+HbXD8+d+5f/DfbEY4POB\nn+5UKE7UkIxQhndyRh39BolkvOwNQ+NnD3kzwWS6Yl/my74gKkeLsrNmOVJvp7k7\nZc1LpPOxrabw9ZOA6brvABI=\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-3j2o0@reactdjango-17278.iam.gserviceaccount.com",
-    "client_id": "103712469206557480775",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-3j2o0%40reactdjango-17278.iam.gserviceaccount.com"
+    "type": os.getenv("TYPE"),
+    "project_id": os.getenv("PROJECT_ID"),
+    "private_key_id": os.getenv("PRIVATE_KEY_ID"),
+    "private_key": os.getenv("PRIVATE_KEY"), 
+    "client_email":os.getenv("CLIENT_EMAIL"),
+    "client_id": os.getenv("CLIENT_ID"),
+    "auth_uri": os.getenv("AUTH_URI"),
+    "token_uri": os.getenv("TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
+    "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL")
 }
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/alexa/credentials.json"
 cred = credentials.Certificate(CONFIG)
