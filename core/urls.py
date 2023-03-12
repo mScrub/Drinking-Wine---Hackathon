@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import front, users, create_user, login, writing
+from .views import front, users, create_user, login, writing, is_logged_in
 
 urlpatterns = [
     path('', front, name='front'),
@@ -7,4 +7,5 @@ urlpatterns = [
     path('create_user/', create_user, name='create_user'),
     path('login/', login, name='login'),
     path('writing/', writing, name='writing'),
+    path('is_logged_in/', is_logged_in, name='is_logged_in'),
 ]
