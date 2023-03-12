@@ -21,7 +21,7 @@ from firebase_admin import credentials
 
 
 CONFIG = {
-    'TYPE': os.getenv('TYPE'),
+    'type': os.getenv('TYPE'),
     "project_id": os.getenv("PROJECT_ID"),
     "private_key_id": os.getenv("PRIVATE_KEY_ID"),
     "private_key": os.getenv("PRIVATE_KEY"), 
@@ -34,7 +34,8 @@ CONFIG = {
 }
 print(CONFIG)
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:./"pc37.txt" 
-cred = credentials.Certificate(CONFIG)
+cred = credentials.Certificate("./credentials.json")
+# cred = credentials.Certificate(CONFIG)
 firebase_admin.initialize_app(cred)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
