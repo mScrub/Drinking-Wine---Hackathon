@@ -32,7 +32,6 @@ CONFIG = {
     "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
     "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL")
 }
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/alexa/credentials.json"
 cred = credentials.Certificate(CONFIG)
 firebase_admin.initialize_app(cred)
 
