@@ -34,7 +34,7 @@ CONFIG = {
 }
 
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/alexa/credentials.json"
-cred = credentials.Certificate(f'{CONFIG}')
+cred = credentials.Certificate(CONFIG)
 firebase_admin.initialize_app(cred)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
