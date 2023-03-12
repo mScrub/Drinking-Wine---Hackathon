@@ -34,6 +34,9 @@ function App() {
   const write = async (event) => {
     event.preventDefault()
     axios.post("core/writing/", {"name": "some name"})
+      .then(response => {
+        console.log(response)
+      })
   }
 
   return (
