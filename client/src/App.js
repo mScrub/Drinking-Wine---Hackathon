@@ -20,6 +20,22 @@ function App() {
       });
   };
 
+  const login = async (event) => {
+    event.preventDefault()
+    axios.post("core/login/", {email: email, password: password})
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const write = async (event) => {
+    event.preventDefault()
+    axios.post("core/writing/", {"name": "some name"})
+  }
+
   return (
     <div className="App">
       <form onSubmit={search} method="POST" className="">
@@ -37,6 +53,8 @@ function App() {
         />
 
         <button onClick={search}>Click</button>
+        <button onClick={login}>Login</button>
+        <button onClick={write}>Write</button>
       </form>
     </div>
   );
