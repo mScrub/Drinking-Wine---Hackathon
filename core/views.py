@@ -6,7 +6,6 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 import requests
 import openai
-import subprocess
 from DrinkingWine import config
 openai.api_key = config.OPENAI_API_KEY
 
@@ -26,19 +25,13 @@ def users(request):
 
 
 @csrf_exempt
-def create_user(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        email = data.get('email')
-        password = data.get('password')
-        try:
-            user = auth.create_user(email=email, password=password)
-            print(user.uid)
-            return JsonResponse({'success': True, 'user': user})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-    else:
-        return JsonResponse({'error': 'Invalid request method'})
+def create_user(email, password):
+    try:
+        user = auth.create_user(email=email, password=password)
+        print(user.uid)
+        return JsonResponse({'success': True, 'user': user})
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)})
 
 
 @csrf_exempt
@@ -46,24 +39,31 @@ def login(request):
     data = json.loads(request.body)
     email = data.get("email")
     password = data.get("password")
-    response = requests.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBWSuiVJJm7Y8hgAwQUljezZLhvfoWrVLw',
-        data=json.dumps({
-            'email': email,
-            'password': password,
-            'returnSecureToken': True
-        }),
-        headers={'Content-Type': 'application/json'}, timeout=20
-    )
+    try:
+        user = auth.get_user_by_email(email)
+        response = requests.post(
+            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBWSuiVJJm7Y8hgAwQUljezZLhvfoWrVLw',
+            data=json.dumps({
+                'email': email,
+                'password': password,
+                'returnSecureToken': True
+            }),
+            headers={'Content-Type': 'application/json'}, timeout=20
+        )
 
-    if response.status_code == 200:
-        response_data = response.json()
-        USER_UID = response_data["localId"]
-        request.session["uid"] = USER_UID
-        request.session.save()
-        return JsonResponse({"success": True, "id": USER_UID})
-    else:
-        return JsonResponse({"error": "there was an error"})
+        if response.status_code == 200:
+            response_data = response.json()
+            USER_UID = response_data["localId"]
+            request.session["uid"] = USER_UID
+            request.session.save()
+            return JsonResponse({"success": True})
+        else:
+            return JsonResponse({"error": "there was an error"})
+    except Exception as e:
+        if e.code == "NOT_FOUND":
+            return create_user(email, password)
+        else:
+            return JsonResponse({"error": "Cannot Create user"})
 
 
 @csrf_exempt
@@ -97,11 +97,11 @@ def get_chatgpt_response(request):
             ambiance = data.get("ambiance")
             start_message = {
                 "role": "user",
-                "content": "Let the interview begin."
+                "content": "Let the interview begin. Greet me first and then start asking me question stay with your role."
             }
             initial_message = {
                 "role": "system",
-                "content": f"You are an interviewer for a {position} position. Make this interview {ambiance} for the interviewee. Respond to all input in less than 25 words or less",
+                "content": f"Pretend that we are in an interview setting, you will be the interviewer and I will be the interviewee, at the end of this interview give me feedback. Pretend I am applying for {position} position, you can only speak 25 or less and make the environment {ambiance}.",
             }
             messages.append(initial_message)
             messages.append(start_message)
