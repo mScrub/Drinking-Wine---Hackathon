@@ -29,7 +29,7 @@ def create_user(email, password):
     try:
         user = auth.create_user(email=email, password=password)
         print(user.uid)
-        return JsonResponse({'success': True, 'user': user})
+        return JsonResponse({'success': True})
     except Exception as e:
         return JsonResponse({'success': False, 'message': str(e)})
 
@@ -63,7 +63,7 @@ def login(request):
         if e.code == "NOT_FOUND":
             return create_user(email, password)
         else:
-            return JsonResponse({"error": "Cannot Create user"})
+            return JsonResponse({"error": "Cannot Create user "})
 
 
 @csrf_exempt
