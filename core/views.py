@@ -6,6 +6,9 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 import requests
 import openai
+import subprocess
+from DrinkingWine import config
+openai.api_key = config.OPENAI_API_KEY
 
 
 def front(request):
