@@ -8,5 +8,6 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('writing/', writing, name='writing'),
     path('is_logged_in/', is_logged_in, name='is_logged_in'),
-    path('get_chatgpt_response/', get_chatgpt_response, name='get_chatgpt_response'),
+    path('get_chatgpt_response/', get_chatgpt_response,
+         name='get_chatgpt_response'),
 ]

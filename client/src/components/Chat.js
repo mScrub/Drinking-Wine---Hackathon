@@ -10,15 +10,20 @@ import axios from "axios";
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const { state } = useLocation();
-  useEffect(() => { 
-      const sendInformation = async () => { 
-      axios.post("core/get_chatgpt_response/", {"ambiance": state.ambiance, "position": state.position, "messages": messages})
-        .then(response => {
-          console.log(response.data)
+  useEffect(() => {
+    const sendInformation = async () => {
+      axios
+        .post("core/get_chatgpt_response/", {
+          ambiance: state.ambiance,
+          position: state.position,
+          messages: messages,
         })
-    }
-      sendInformation();
-    }, [])
+        .then((response) => {
+          console.log(response.data);
+        });
+    };
+    sendInformation();
+  }, []);
 
   // Get data...
   // console.log(state.position, state.ambiance);
@@ -29,8 +34,6 @@ const Chat = () => {
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable,
   } = useSpeechRecognition();
-  const startListening = () =>
-    SpeechRecognition.startListening({ continuous: true });
 
   if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) {
     return <h1> Browser does not support Speech to Text d </h1>;
@@ -45,14 +48,17 @@ const Chat = () => {
     }
   };
 
-  
-
   const storeTranscript = () => {
     if (transcript === "") return;
     setTimeout(async () => {
-      const response = await axios.post("core/get_chatgpt_response/", {"messages": messages, "text": transcript})
-      setMessages((messages) => [...messages, response.data.response]);
-      console.log(response)
+      await axios
+        .post("core/get_chatgpt_response/", {
+          messages: messages,
+          text: transcript,
+        })
+        .then((response) => console.log(response.data));
+      // setMessages((messages) => [...messages, response.data.response]);
+      // console.log(response);
     }, 1000);
     resetTranscript();
   };
