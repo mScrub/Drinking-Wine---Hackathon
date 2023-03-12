@@ -15,9 +15,9 @@ import os
 import firebase_admin
 from firebase_admin import credentials
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 
 CONFIG = {
@@ -34,7 +34,7 @@ CONFIG = {
 }
 
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/alexa/credentials.json"
-cred = credentials.Certificate(CONFIG)
+cred = credentials.Certificate('CONFIG')
 firebase_admin.initialize_app(cred)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
