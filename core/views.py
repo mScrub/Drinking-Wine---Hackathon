@@ -6,6 +6,8 @@ from firebase_admin import firestore, auth
 import json
 from django.views.decorators.csrf import csrf_exempt
 import requests
+import openai, subprocess
+openai.api_key = "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"
 
 def front(request):
     context = {}
@@ -74,3 +76,32 @@ def writing(request):
 @csrf_exempt
 def is_logged_in(request):
     return request.session["uid"] is not None
+
+
+@csrf_exempt
+def get_chatgpt_response(request):
+    data = json.loads(request.body)
+    messages = data.get("messages")
+    print(messages)
+    if len(messages) == 0:
+        position = data.get("position")
+        ambiance = data.get("ambiance")
+        start_message = {
+            "role": "user",
+            "content": "Let the interview begin."
+        }
+        initial_message = {
+            "role": "system",
+            "content": f"You are an interviewer for a {position} position. Make this interview {ambiance} for the interviewee. Respond to all input in less than 25 words or less",
+        }
+        messages.append(initial_message)
+        messages.append(start_message)
+    else:
+        text = data.get("text")
+        new_message = {
+            "role": "user",
+            "content": text
+        }
+        messages.append(new_message)
+    chatgpt_response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+    return JsonResponse({"response": chatgpt_response})
