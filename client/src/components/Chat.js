@@ -14,7 +14,8 @@ const Chat = () => {
       const sendInformation = async () => { 
       axios.post("core/get_chatgpt_response/", {"ambiance": state.ambiance, "position": state.position, "messages": messages})
         .then(response => {
-          console.log(response.data)
+          console.log(response)
+          setMessages([...messages, response.data.response.choices[0].message])
         })
     }
       sendInformation();
@@ -68,12 +69,12 @@ const Chat = () => {
         </h1>
         <div> {transcript} </div>
         <div className="flex, flex-col">
-          <Response
+          {/* <Response
             content={
               "Hello! Welcome to our office. It's great to meet you in person. I'm glad you made it here safely. Please have a seat and make yourself comfortable. Can I get you some water or coffee before we start?"
             }
             user={true}
-          />
+          /> */}
           {messages.map((message) => (
             <Response key={message.content} content={message.content} />
           ))}
