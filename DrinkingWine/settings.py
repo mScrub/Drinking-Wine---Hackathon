@@ -15,13 +15,13 @@ import os
 import firebase_admin
 from firebase_admin import credentials
 
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# load_dotenv()
+load_dotenv()
 
 
 CONFIG = {
-    "type": os.getenv("type"),
+    "type": os.getenv("TYPE"),
     "project_id": os.getenv("PROJECT_ID"),
     "private_key_id": os.getenv("PRIVATE_KEY_ID"),
     "private_key": os.getenv("PRIVATE_KEY"), 
@@ -32,11 +32,12 @@ CONFIG = {
     "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
     "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL")
 }
-print(CONFIG)
+print(CONFIG['type'])
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:./"pc37.txt" 
-# cred = credentials.Certificate("./credentials.json")
-cred = credentials.Certificate(CONFIG)
+cred = credentials.Certificate("./credentials.json")
+# cred = credentials.Certificate(CONFIG)
 firebase_admin.initialize_app(cred)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
