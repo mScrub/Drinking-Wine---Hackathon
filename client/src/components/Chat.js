@@ -50,7 +50,7 @@ const Chat = () => {
       axios.post("core/get_chatgpt_response/", {"messages": messages, "text": transcript})
         .then(response => {
           console.log(response)
-          setMessages((messages) => [...messages, response.data.response.choices[0].message]);
+          setMessages([...messages, response.data.response.choices[0].message]);
         })
     }, 1000);
     resetTranscript();
