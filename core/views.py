@@ -38,7 +38,8 @@ def create_user(request):
             return JsonResponse({'success': False, 'message': str(e)})
     else:
         return JsonResponse({'error': 'Invalid request method'})
-    
+
+
 @csrf_exempt
 def login(request):
     data = json.loads(request.body)
@@ -63,6 +64,7 @@ def login(request):
     else:
         return JsonResponse({"error": "there was an error"})
 
+
 @csrf_exempt
 def writing(request):
     data = json.loads(request.body)
@@ -74,9 +76,13 @@ def writing(request):
     })
     return JsonResponse({"stuff": request.session.get("uid")})
 
+
 @csrf_exempt
 def is_logged_in(request):
-    return request.session["uid"] is not None
+    if request.session.get("uid") is not None:
+        return JsonResponse({"success": True})
+    else:
+        return JsonResponse({"success": False})
 
 
 @csrf_exempt
@@ -104,5 +110,6 @@ def get_chatgpt_response(request):
             "content": text
         }
         messages.append(new_message)
-    chatgpt_response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+    chatgpt_response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", messages=messages)
     return JsonResponse({"response": chatgpt_response})
