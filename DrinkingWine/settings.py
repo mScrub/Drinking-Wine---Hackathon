@@ -19,13 +19,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-
 CONFIG = {
     "type": os.getenv("TYPE"),
     "project_id": os.getenv("PROJECT_ID"),
     "private_key_id": os.getenv("PRIVATE_KEY_ID"),
-    "private_key": os.getenv("PRIVATE_KEY"), 
-    "client_email":os.getenv("CLIENT_EMAIL"),
+    "private_key": os.getenv("PRIVATE_KEY"),
+    "client_email": os.getenv("CLIENT_EMAIL"),
     "client_id": os.getenv("CLIENT_ID"),
     "auth_uri": os.getenv("AUTH_URI"),
     "token_uri": os.getenv("TOKEN_URI"),
@@ -51,7 +50,7 @@ SECRET_KEY = 'django-insecure-7zz_$3q(0lqb*(3^+*8u+5fxz$oel5z37--n1t%^u4riyo0$45
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-react-hackathon.herokuapp.com']
 
 # Application definition
 
@@ -152,6 +151,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
