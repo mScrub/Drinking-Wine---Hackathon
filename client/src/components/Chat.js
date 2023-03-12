@@ -17,9 +17,6 @@ const Chat = () => {
           console.log(response)
           setMessages([...messages, response.data.response.choices[0].message])
         })
-        .then((response) => {
-          console.log(response.data);
-        });
     };
     sendInformation();
   }, []);
