@@ -5,7 +5,9 @@ from firebase_admin import firestore, auth
 # Create your views here.
 import json
 from django.views.decorators.csrf import csrf_exempt
+import requests
 
+USER_UID = None
 
 def front(request):
     context = {}
@@ -29,8 +31,46 @@ def create_user(request):
         password = data.get('password')
         try:
             user = auth.create_user(email=email, password=password)
+            print(user.uid)
             return JsonResponse({'success': True, 'user': user})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
     else:
         return JsonResponse({'error': 'Invalid request method'})
+    
+@csrf_exempt
+def login(request):
+    data = json.loads(request.body)
+    email = data.get("email")
+    password = data.get("password")
+
+    response = requests.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBWSuiVJJm7Y8hgAwQUljezZLhvfoWrVLw',
+        data=json.dumps({
+            'email': email,
+            'password': password,
+            'returnSecureToken': True
+        }),
+        headers={'Content-Type': 'application/json'}, timeout=20
+    )
+    if response.status_code == 200:
+        response_data = response.json()
+        USER_UID = response_data["localId"]
+
+        return JsonResponse({"success": True, "id": USER_UID})
+    else:
+        return JsonResponse({"error": "there was an error"})
+
+@csrf_exempt
+def writing(request):
+    data = json.loads(request.body)
+    name = data.get("name")
+
+    print(f"uid: {USER_UID}")
+
+    database = firestore.client()
+    user_collection = database.collection("users")
+    user_collection.document(name).set({
+        "name": name
+    })
+    return JsonResponse({"stuff": "stuff"})
