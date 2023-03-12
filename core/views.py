@@ -7,7 +7,8 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 import requests
 import openai, subprocess
-openai.api_key = "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"
+from DrinkingWine import config
+openai.api_key = config.OPENAI_API_KEY
 
 def front(request):
     context = {}
