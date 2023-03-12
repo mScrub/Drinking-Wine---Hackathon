@@ -65,7 +65,6 @@ pypiwin32>=223
 python-dotenv==1.0.0
 pyttsx3==2.90
 pytz==2022.7.1
-pywin32==227;platform_system == "Windows"
 requests==2.28.2
 rsa==4.9
 six==1.16.0
