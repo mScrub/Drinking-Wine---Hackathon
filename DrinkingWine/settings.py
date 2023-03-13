@@ -16,8 +16,10 @@ import firebase_admin
 from firebase_admin import credentials
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
+port = int(os.environ.get("PORT", 8000))
 
 CONFIG = {
     "type": os.getenv("TYPE"),
@@ -31,9 +33,12 @@ CONFIG = {
     "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
     "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL")
 }
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/alexa/credentials.json"
-cred = credentials.Certificate(CONFIG)
+print(CONFIG['type'])
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:./"pc37.txt" 
+cred = credentials.Certificate("./credentials.json")
+# cred = credentials.Certificate(CONFIG)
 firebase_admin.initialize_app(cred)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
