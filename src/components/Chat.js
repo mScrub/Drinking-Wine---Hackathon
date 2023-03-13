@@ -7,16 +7,16 @@ import Response from "./Responses";
 import { FaMicrophone } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import axios from "axios";
-import { useSpeechSynthesis } from "react-speech-kit";
 
 const Chat = () => {
-  const navigate = useNavigate();
+  const speaker = window.speechSynthesis;
+  const speech = new SpeechSynthesisUtterance();
   const [openAiResponse, setOpenAiResponse] = useState("");
+  const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [waiting, setWaiting] = useState(true);
   const { state } = useLocation();
   const messageEndRef = useRef(null);
-  const { speak } = useSpeechSynthesis();
 
   const scrollToBottom = () => {
     messageEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -59,7 +59,8 @@ const Chat = () => {
 
   useEffect(() => {
     if (openAiResponse) {
-      speak({ text: openAiResponse });
+      speech.text = openAiResponse;
+      speaker.speak(speech);
       setOpenAiResponse("");
     }
   }, [messages]);
@@ -95,6 +96,7 @@ const Chat = () => {
             response.data.response.choices[0].message,
           ]);
           setOpenAiResponse(response.data.response.choices[0].message.content);
+          window.speechSynthesis.speak(speech);
         });
     }, 1000);
     setWaiting(false);

@@ -8,7 +8,7 @@ import Chat from "./components/Chat";
 import Login from "./components/Login";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     axios
@@ -17,20 +17,20 @@ function App() {
         if (response.data.success) {
           setIsLoggedIn(response.data.success);
         } else {
-          setIsLoggedIn(false)
+          setIsLoggedIn(false);
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [isLoggedIn]);
+  }, []);
 
   const login = async (email, password) => {
-    axios
+    await axios
       .post("core/login/", { email: email, password: password })
       .then((response) => {
+        console.log(response.data);
         if (response.data.success) {
-          console.log(response);
           setIsLoggedIn(response.data.success);
         }
       })
